@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
+from From1 import AbrirFrom
 
 class BienvenidaLog:
     def __init__(self, root):
@@ -127,24 +128,6 @@ class BienvenidaLog:
         )
         login_btn.pack()
         
-        # Enlaces de ayuda
-        help_frame = tb.Frame(login_frame)
-        help_frame.pack(pady=25)
-        
-        tb.Button(
-            help_frame,
-            text="¿Olvidaste tu contraseña?",
-            command=self.recuperar_password,
-            bootstyle="link-secondary"
-        ).pack(side=tk.LEFT, padx=15)
-        
-        tb.Button(
-            help_frame,
-            text="Crear nueva cuenta",
-            command=self.crear_cuenta,
-            bootstyle="link-secondary"
-        ).pack(side=tk.LEFT, padx=15)
-        
         # Footer
         footer_frame = tb.Frame(main_frame, bootstyle="light")
         footer_frame.pack(side=tk.BOTTOM, fill=tk.X, pady=15)
@@ -184,24 +167,9 @@ class BienvenidaLog:
         )
         
         # Cerrar ventana de login
-        self.root.destroy()
-        
-        # Aquí se abriría la ventana principal del sistema de productos
-        # self.abrir_sistema_principal()
-    
-    def recuperar_password(self):
-        messagebox.showinfo(
-            "Recuperar Contraseña", 
-            "Función disponible próximamente\nContacta al administrador del sistema",
-            parent=self.root
-        )
-    
-    def crear_cuenta(self):
-        messagebox.showinfo(
-            "Crear Cuenta", 
-            "Función disponible próximamente\nContacta al administrador del sistema",
-            parent=self.root
-        )
+        self.root.withdraw()
+        # Abrir la ventana principal del sistema
+        AbrirFrom()
 
 if __name__ == "__main__":
     root = tk.Tk()

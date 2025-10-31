@@ -227,8 +227,11 @@ class ProductManagementSystem:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    
     root.style = tb.Style(theme="cyborg")
-    
     app = ProductManagementSystem(root)
     root.mainloop()
+
+def AbrirFrom():
+    ventana = tk.Toplevel()
+    ventana.style = tb.Style(theme="cyborg")
+    ProductManagementSystem(ventana)
