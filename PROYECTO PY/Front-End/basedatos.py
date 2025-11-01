@@ -6,7 +6,7 @@ def conectar():
         host="localhost",
         user="root",
         passwd="ISRAEL123",
-        database="JIO"  # 👈 agrega esto
+        database="JIO"  # agrega esto
     )
     return conexion
 

@@ -3,6 +3,7 @@ from tkinter import messagebox, ttk
 from basedatos import crear_base_y_tablas
 from LimitStock import abrir_Limit
 from CRUD import agregar_producto, obtener_productos, agregar_categoria, obtener_categorias, eliminar_producto, actualizar_producto, obtener_productos_por_categoria
+import re
 
 class ModernApp:
     def __init__(self):
@@ -19,6 +20,7 @@ class ModernApp:
         self.ventana.title("MICELANIA JIO - Sistema de Gestión")
         self.setup_window()
         self.create_widgets()
+        self.setup_validation()
         self.actualizar_tabla()
 
     def setup_window(self):
@@ -42,6 +44,50 @@ class ModernApp:
         self.text_muted = "#B0B0B0"
         
         self.ventana.configure(bg=self.bg_dark)
+
+    def setup_validation(self):
+        """Configura la validación de campos"""
+        # Validar que solo letras y espacios en nombre
+        vcmd_name = (self.ventana.register(self.validate_name), '%P')
+        self.txt_Producto.configure(validate='key', validatecommand=vcmd_name)
+        
+        # Validar que solo números en precio y stock
+        vcmd_price = (self.ventana.register(self.validate_positive_float), '%P')
+        self.txt_Precio.configure(validate='key', validatecommand=vcmd_price)
+        
+        vcmd_stock = (self.ventana.register(self.validate_positive_int), '%P')
+        self.txt_Stock.configure(validate='key', validatecommand=vcmd_stock)
+    
+    def validate_name(self, value):
+        """Valida que el nombre solo contenga letras y espacios"""
+        if value == "":
+            return True
+        # Permite letras, espacios, acentos y caracteres especiales comunes
+        return bool(re.match(r'^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\-\.,()]+$', value))
+    
+    def validate_positive_float(self, value):
+        """Valida que el precio sea un número positivo"""
+        if value == "":
+            return True
+        # Permite números con punto decimal
+        if re.match(r'^\d*\.?\d*$', value):
+            if value == '.':
+                return True
+            try:
+                num = float(value)
+                return num >= 0  # Permite cero
+            except ValueError:
+                return False
+        return False
+    
+    def validate_positive_int(self, value):
+        """Valida que el stock sea un entero positivo"""
+        if value == "":
+            return True
+        # Solo permite números enteros
+        if value.isdigit():
+            return int(value) >= 0  # Permite cero pero no negativos
+        return False
 
     def create_widgets(self):
         """Crea todos los widgets de la interfaz"""
@@ -266,20 +312,22 @@ class ModernApp:
             height=18
         )
 
-        # Configurar estilo de la tabla
+        # Configurar estilo de la tabla - CAMBIO AQUÍ: texto negro
         style = ttk.Style()
         style.configure("Treeview", 
-                       background=self.bg_darker,
-                       foreground=self.text_light,
-                       fieldbackground=self.bg_darker,
-                       borderwidth=0,
+                       background="#FFFFFF",  # Fondo blanco
+                       foreground="#000000",  # Texto negro
+                       fieldbackground="#FFFFFF",
+                       borderwidth=1,
                        font=("Arial", 9))
         style.configure("Treeview.Heading",
                        background=self.primary,
-                       foreground=self.text_light,
+                       foreground="#000000",  # Texto negro en los encabezados
                        borderwidth=0,
                        font=("Arial", 9, "bold"))
-        style.map("Treeview.Heading", background=[('active', '#0097E6')])
+        style.map("Treeview.Heading", 
+                 background=[('active', '#0097E6')],
+                 foreground=[('active', '#000000')])  # Mantener texto negro en hover
 
         # Configurar columnas
         column_config = [
