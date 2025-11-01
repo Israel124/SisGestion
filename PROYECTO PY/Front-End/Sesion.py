@@ -159,7 +159,7 @@ linea_decorativa.place(x=50, y=120, width=250)
 # Información de credenciales (solo para desarrollo)
 label_info = tk.Label(
     frame_principal,
-    text="© 2024 MISCELANEA JIO - Sistema de Gestión v1.0",
+    text="© 2025 MISCELANEA JIO - Sistema de Gestión v1.0",
     font=("Arial", 8),
     bg="#34495E",
     fg="#7F8C8D"
